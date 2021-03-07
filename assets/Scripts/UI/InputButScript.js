@@ -32,6 +32,10 @@ cc.Class({
             default: 0,
             type: cc.Integer,
         },
+        value: {
+            default: 0,
+            type: cc.Integer,
+        },
         inputLabel: {
             default: null,
             type: cc.Label,
@@ -64,7 +68,9 @@ cc.Class({
 
     // LIFE-CYCLE CALLBACKS:
 
-    // onLoad () {},
+    onLoad () {
+        this.refHolder = cc.find("RefHolder");
+    },
 
     start () {
 
@@ -88,10 +94,12 @@ cc.Class({
             if(total == false){
                 this.sprite.spriteFrame = this.blueSF;
                 this.inputLabel.string = value;
+                this.value = value;
             }
             else{
                 this.sprite.spriteFrame = this.greenSF;
                 this.inputLabel.string = value;
+                this.value = value;
             }
 
             this.button.interactable = false;
@@ -112,15 +120,20 @@ cc.Class({
     },
 
 
-    SetLabelText(value){
+    SetValue(value){
+        this.value = value;
         if(value === 0){
             this.inputLabel.string = '-';
-            //this.sprite.spriteFrame = this.greySF;
+            this.sprite.spriteFrame = this.greySF;
         }else{
             this.sprite.spriteFrame = this.greenSF;
             this.inputLabel.string = value;
 
         }
+    },
+
+    GetValue(){
+        return this.value;
     },
     // update (dt) {},
 });

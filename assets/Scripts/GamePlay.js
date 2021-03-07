@@ -25,47 +25,59 @@ cc.Class({
         //         this._bar = value;
         //     }
         // },
+
+        //Mother Node
         refHolder:{
             default: null,
             type: cc.Node,
         },
+        //Array To Create Puzzle
+        oneToNineArray:{
+            default : [],
+            type: cc.Integer,
+        }
 
     },
 
     // LIFE-CYCLE CALLBACKS:
 
-    // onLoad () {},
+    onLoad () {
+        this.refHolder = cc.find("RefHolder");
+    },
 
     start () {
 
-        //this.refHolder.getComponent('GamePlay').variable;
-        this.oneToNineArray = [1,2,3,4,5,6,7,8,9];
+        this.refHolder.getComponent('UIAnimManager').MainMenuIn();
+        /*this.oneToNineArray = [1,2,3,4,5,6,7,8,9];
         this.ShuffleOneTwoNineArray();
-        this.butArray = [0];
-        this.CreatePuzzle();
+        this.butArray = [0];*/
+        //this.CreatePuzzle();
 
 
     },
 
     
 
-    update (dt) {
-
-        
-    },
+    //update (dt) {},
 
 
 
     CreatePuzzle()
     {
+        //Initialize
+        this.oneToNineArray = [1,2,3,4,5,6,7,8,9];
+        this.ShuffleOneTwoNineArray();
+        this.butArray = [0];
 
+        //Get Random Row Number
         let rowNum = this.GetRndInteger(3,5);
         console.log("row Selected "+rowNum);
 
+        //9 Puzzle Button
         let butLeft = 9;
 
-
-        if(rowNum == 3){
+        // For 3 Row Puzzle
+        if(rowNum === 3){
 
             let fourSelected = false;
             let twoSelected = false;
@@ -74,28 +86,29 @@ cc.Class({
             {
 
                 let colNum = this.GetRndInteger(2,5)
-                if(colNum == 2 && twoSelected){
-
-                }else if(colNum == 4 && fourSelected){
-
+                if(colNum === 2 && twoSelected){
+                    // Only One 2 Column Row
+                }else if(colNum === 4 && fourSelected){
+                    // Only One 4 Column Row
                 }
                 else{
-                    if(colNum == 2){
+                    if(colNum === 2){
                         twoSelected = true;
                     }
-                    else if(colNum == 4){
+                    else if(colNum === 4){
                         fourSelected = true;
                     }
 
                     butLeft -= colNum;
                     this.butArray[i++] = colNum;
-                    if(i ==rowNum-1){
+                    if(i ===rowNum-1){
                         this.butArray[i++] = butLeft;
                     }
                 }
 
             }
         }
+        // For 4 Row Puzzle
         else{
 
             let i =0;
@@ -104,7 +117,7 @@ cc.Class({
             while(i< rowNum)
             {
 
-                if(i == threeColNum){
+                if(i === threeColNum){
                     this.butArray[i++] = 3;
                 }
                 else{
@@ -122,15 +135,8 @@ cc.Class({
 
         this.refHolder.getComponent("UIManager").CreateColumns();
 
-
-
-        /*let i;
-        for (i = 0; i < this.numersUsed.length; i++) {
-            text += this.numersUsed[i];
-        }
-        console.log(text+" ");*/
     },
-
+    // To Shuffle The Answer
     ShuffleOneTwoNineArray(){
         for(let i = this.oneToNineArray.length - 1; i > 0; i--){
             const j = Math.floor(Math.random() * i)
@@ -144,7 +150,7 @@ cc.Class({
         }
         console.log("Randomized Array"+text);
     },
-
+    // Random Integer from Range
     GetRndInteger(min, max) {
         return Math.floor(Math.random() * (max - min) ) + min;
     }

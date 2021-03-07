@@ -54,7 +54,7 @@ cc.Class({
         if(this.soundBool)
         {
             //console.log('Play');
-            this.MenuMusicObj = cc.audioEngine.play(this.menuMusic, true, 1);
+            this.MenuMusicObj = cc.audioEngine.play(this.menuMusic, true, 0.5);
         }
 
     },

@@ -24,6 +24,8 @@ cc.Class({
         //         this._bar = value;
         //     }
         // },
+
+        //Mother Node
         refHolder:{
             default: null,
             type: cc.Node,
@@ -32,20 +34,77 @@ cc.Class({
             default : 0,
             type: cc.Integer,
         },
+        selectedBool : {
+            default : false,
+            type: cc.Boolean,
+        },
+        sprite: {
+          default: null,
+          type: cc.Sprite,
+        },
+        greenSF: {
+            default: null,
+            type: cc.SpriteFrame,
+        },
+        blueSF: {
+            default: null,
+            type: cc.SpriteFrame,
+        },
+        greySF: {
+            default: null,
+            type: cc.SpriteFrame,
+        },
+        goldSF: {
+            default: null,
+            type: cc.SpriteFrame,
+        },
 
     },
 
     // LIFE-CYCLE CALLBACKS:
 
-    // onLoad () {},
+    onLoad () {
+        this.refHolder = cc.find("RefHolder");
+
+    },
 
     start () {
+        this.sprite = this.node.getChildByName("Background").getComponent(cc.Sprite);
 
     },
 
     OnButPress(){
         console.log("Button Pressed "+this.number);
-        this.refHolder.getComponent("UIManager").NumberButtonSelect(this.number);
+
+        if(this.refHolder.getComponent("UIManager").prevID !== 10){
+            if(this.selectedBool === false){
+                this.refHolder.getComponent("UIManager").NumberButtonSelect(this.number);
+                if(this.number !== 0){
+                    this.SelectNumber();
+                }
+
+
+            }else{
+                console.log("Number Already In used");
+            }
+        }else{
+            console.log("No Button Selected");
+        }
+
+    },
+
+    SelectNumber(){
+        this.selectedBool = true;
+        this.sprite.spriteFrame = this.goldSF;
+    },
+    DeSelectNumber(){
+        this.selectedBool = false;
+        this.sprite.spriteFrame = this.greySF;
+    },
+    Deactivate(){
+        this.selectedBool = true;
+        this.sprite.spriteFrame = this.blueSF;
+        this.getComponent(cc.Button).interactable = false;
     },
 
     // update (dt) {},
